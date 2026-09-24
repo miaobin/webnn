@@ -293,7 +293,7 @@ Together, the shape chains in a graph form a subgraph. Every chain in it has a f
 
 The operators in between are ordinary operators, evaluated on small integer vectors.
 
-Two consequences follow from this. A shape can never depend on a value that the graph computes from tensor data. And `computeShapes()` is a pure function of the input *shapes*: the same input shapes always give the same output shapes, whatever the tensors contain.
+Two consequences follow from this: A shape can never depend on a value that the graph computes from tensor data, and `computeShapes()` is a pure function of the input *shapes* - the same input shapes always give the same output shapes, whatever the tensors contain.
 
 Identifying this subgraph doesn't partition the graph. Its operators stay in the graph that's handed to the backend and run there as usual. The interpreter's evaluation is a separate computation on the CPU that resolves shapes before dispatch.
 
@@ -377,7 +377,7 @@ We start with opaque names for three reasons:
 
 - Backends can't consume expressions: ONNX takes a `dim_param` string, LiteRT takes `-1`, and Core ML takes a `RangeDim`. Expressions would only exist inside WebNN.
 
-- The graph comes from an untrusted renderer, so proving constraints at build time is attacker-influenced work in a privileged process. A wall-clock time limit would make build results depend on the machine, so a deterministic limit on expression size and depth would be needed instead.
+- The graph comes from an untrusted renderer, so proving constraints at build time is attacker-influenced work in a privileged process. A time limit would make build results depend on the machine, so a deterministic limit on expression size and depth would be needed instead.
 
 Expressions remain attractive as a later layer on top of opaque names, for diagnostics and earlier rejection. They'd work well together with [Bounded (min/max) dimensions](#bounded-minmax-dimensions), which provide the input constraints that most build-time proofs need.
 
